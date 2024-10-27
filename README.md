@@ -37,3 +37,7 @@ token = Token.objects.create(user=user)
 print(token.key)
 
 ```
+
+Or
+
+http post http://127.0.0.1:8000/api-token-auth/ username=admin password=123
