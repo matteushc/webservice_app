@@ -1,0 +1,35 @@
+services:
+  dcs-postgres:
+    #image: postgres:15.3-alpine
+    image: postgres:17.0
+    container_name: dcs-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: admin
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  dcs-pgadmin:
+    image: dpage/pgadmin4:latest
+    #securityContext:
+    #  runAsUser: 0
+    #  runAsGroup: 0
+    container_name: dcs-pgadmin
+    restart: always
+    depends_on:
+      - dcs-postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    user: '$UID:$GID'
+    ports:
+      - 8080:80
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+
+networks:
+  default:
+    name: REDE1
+    external: true
